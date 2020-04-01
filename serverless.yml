@@ -1,0 +1,53 @@
+service: local-dynamodb
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: ${opt:stage, 'dev'} 
+  region: us-east-1
+  environment:
+    CONFIG__DB_TABLE: ${self:custom.tableNames.localDynamodb-name}
+    CONFIG_DYNAMODB_ENDPOINT: ${self:custom.endpoints.localDynamodb-url}
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline
+
+custom:
+  endpoints:
+    localDynamodb-url: 'http://localhost:8000'
+  tableNames:
+    localDynamodb-name: my-dynamodb-local-table
+  dynamodb:
+    stages:
+      - dev
+    start:
+      migrate: true
+      seed: true
+    seed:
+      local:
+        sources:
+          - table: ${self:provider.environment.CONFIG__DB_TABLE}
+            sources: [ ./seedData.json ]
+resources:
+  Resources:
+    SampleTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.CONFIG__DB_TABLE}
+        AttributeDefinitions:
+          - AttributeName: BookTitle
+            AttributeType: S
+          - AttributeName: Author
+            AttributeType: S
+        KeySchema:
+          - AttributeName: BookTitle
+            KeyType: HASH
+          - AttributeName: Author
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: '5'
+          WriteCapacityUnits: '5'
+#  Outputs:
+#     NewOutput:
+#       Description: "Description for the output"
+#       Value: "Some output value"

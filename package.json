@@ -1,0 +1,14 @@
+{
+  "name": "build-local-dynamodb-with-seeds",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "run-offline": "node_modules/.bin/sls offline start --stage dev"
+  },
+  "dependencies": {
+    "serverless": "^1.67.0",
+    "serverless-dynamodb-local": "^0.2.39",
+    "serverless-offline": "^6.1.2"
+  }
+}
