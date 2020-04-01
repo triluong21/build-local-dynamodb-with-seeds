@@ -1,4 +1,4 @@
-# Buil DynamoDb offline with serverless.yml
+# Build DynamoDb offline with serverless.yml
   ### 1. Start a new project.
   ### 2. In Terminal:
     a. Run <serverless create --template aws-nodejs>
@@ -12,3 +12,10 @@
     Copy/Paste dynamodb related info from this serverless.yml.
   ### 4. Run serverless to build dynamodb local
     Run <sls offline start>
+  ### 5. Result:
+    $ node_modules/.bin/sls offline start --stage dev
+    Dynamodb Local Started, Visit: http://localhost:8000/shell
+    Serverless: DynamoDB - created table my-dynamodb-local-table
+    Seed running complete for table: my-dynamodb-local-table
+    offline: Starting Offline: dev/us-east-1.
+    offline: Offline [http for lambda] listening on http://localhost:3002
